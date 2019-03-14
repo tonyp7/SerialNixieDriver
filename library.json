@@ -1,0 +1,13 @@
+{
+  "name": "SPINixieDriver",
+  "keywords": "nixie, spi",
+  "description": "Library used to control an IN-12 tube.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/tonyp7/SPINixieDriver.git"
+  },
+  "frameworks": "arduino",
+  "platforms": ["atmelavr", "ststm32", "teensy", "espressif8266"],
+  "version": "1.0"
+}
