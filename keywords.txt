@@ -1,0 +1,23 @@
+########################################
+# Syntax Coloring Map For SPINixieDriver
+########################################
+
+########################################
+# Datatypes (KEYWORD1)
+########################################
+
+SPINixieDriver	KEYWORD1
+
+########################################
+# Methods and Functions (KEYWORD2)
+########################################
+begin	KEYWORD2
+outputEnable	KEYWORD2
+end	KEYWORD2
+send	KEYWORD2
+
+########################################
+# Constants (LITERAL1)
+########################################
+
+#	LITERAL1
