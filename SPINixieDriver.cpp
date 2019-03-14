@@ -30,11 +30,17 @@ void SPINixieDriver::begin( int rckPin, int clkPin, int dataPin, int outputEnabl
 	this->_dataPin = dataPin;
 	this->_outputEnablePin = outputEnablePin;
 	
-	pinMode(outputEnablePin, OUTPUT);
-	digitalWrite(outputEnablePin, HIGH);
+	if(outputEnablePin){
+		pinMode(outputEnablePin, OUTPUT);
+		digitalWrite(outputEnablePin, HIGH);
+	}
 	
+	pinMode(clkPin, OUTPUT);
+	pinMode(dataPin, OUTPUT);
 	pinMode(rckPin, OUTPUT);
 	digitalWrite(rckPin, LOW);
+	digitalWrite(dataPin, LOW);
+	digitalWrite(clkPin, LOW);
 	
 	if(useHardwareSPI){
 		SPI.begin();
@@ -58,6 +64,13 @@ void SPINixieDriver::send(const uint8_t data){
 	if(this->_useHardwareSPI){
 		digitalWrite(this->_rckPin, LOW);
 		SPI.transfer16(this->decode(data));
+		digitalWrite(this->_rckPin, HIGH);
+	}
+	else{
+		uint16_t bcd = this->decode(data);
+		digitalWrite(this->_rckPin, LOW);
+		shiftOut(this->_dataPin, this->_clkPin, MSBFIRST, bcd >> 8);
+		shiftOut(this->_dataPin, this->_clkPin, MSBFIRST, bcd & 0xFF);
 		digitalWrite(this->_rckPin, HIGH);
 	}
 }
