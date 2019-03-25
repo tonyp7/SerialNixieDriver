@@ -1,4 +1,4 @@
-#include <SPINixieDriver.h>
+#include <SerialNixieDriver.h>
 
 /**
  SimpleSingleDigit
@@ -23,7 +23,7 @@ int rckPin = 10;
 int sckPin = 13;
 int dataPin = 11;
 
-SPINixieDriver driver;
+SerialNixieDriver driver;
 
 
 void setup(){

@@ -1,11 +1,11 @@
 {
-  "name": "SPINixieDriver",
+  "name": "SerialNixieDriver",
   "keywords": "nixie, spi",
-  "description": "Library used to control an IN-12 tube.",
+  "description": "Library used to control an IN-12 single tube or daisy chain.",
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/tonyp7/SPINixieDriver.git"
+    "url": "https://github.com/tonyp7/SerialNixieDriver.git"
   },
   "frameworks": "arduino",
   "platforms": ["atmelavr", "ststm32", "teensy", "espressif8266"],

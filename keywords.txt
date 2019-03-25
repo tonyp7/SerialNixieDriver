@@ -1,12 +1,12 @@
 ########################################
-# Syntax Coloring Map For SPINixieDriver
+# Syntax Coloring Map For SerialNixieDriver
 ########################################
 
 ########################################
 # Datatypes (KEYWORD1)
 ########################################
 
-SPINixieDriver	KEYWORD1
+SerialNixieDriver	KEYWORD1
 
 ########################################
 # Methods and Functions (KEYWORD2)

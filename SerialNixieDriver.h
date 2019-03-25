@@ -19,24 +19,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-@file SPINixieDriver.h
+@file SerialNixieDriver.h
 @author Tony Pottier
 @brief Arduino library to easily communicated with daisy-chained Nixie tubes.
 
 @see https://idyl.io
-@see https://github.com/tonyp7/SPINixieDriver
+@see https://github.com/tonyp7/SerialNixieDriver
 */
 
 
-#ifndef SPINixieDriver_h
-#define SPINixieDriver_h
+#ifndef SerialNixieDriver_h
+#define SerialNixieDriver_h
 
 #include <SPI.h>
 
-class SPINixieDriver {
+
+class SerialNixieDriver {
   public:
-	SPINixieDriver();
-	~SPINixieDriver();
+	SerialNixieDriver();
+	~SerialNixieDriver();
 	
 	/** @brief Initialize the driver
 	*	this should be called in the "setup" part of an Arduino program or outside a loop otherwise.
@@ -75,5 +76,6 @@ class SPINixieDriver {
 	int _dataPin = 0;
 	int _outputEnablePin = 0;
 	uint16_t decode(uint8_t digit);
+	void pushData(const uint8_t data);
 };
 #endif

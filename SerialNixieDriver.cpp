@@ -19,29 +19,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-@file SPINixieDriver.cpp
+@file SerialNixieDriver.cpp
 @author Tony Pottier
 @brief Arduino library to easily communicated with daisy-chained Nixie tubes.
 
 @see https://idyl.io
-@see https://github.com/tonyp7/SPINixieDriver
+@see https://github.com/tonyp7/SerialNixieDriver
 */
 
 
-#include "SPINixieDriver.h"
+#include "SerialNixieDriver.h"
 
 
-SPINixieDriver::SPINixieDriver() {
+SerialNixieDriver::SerialNixieDriver() {
 
 }
 
-SPINixieDriver::~SPINixieDriver() {
+SerialNixieDriver::~SerialNixieDriver() {
 	this->end();
 }
 
 
 
-void SPINixieDriver::outputEnable(bool value){
+void SerialNixieDriver::outputEnable(bool value){
 	if(this->_outputEnablePin){
 		if(value){
 			digitalWrite(this->_outputEnablePin, LOW);
@@ -52,7 +52,7 @@ void SPINixieDriver::outputEnable(bool value){
 	}
 }
 
-void SPINixieDriver::begin( int rckPin, int clkPin, int dataPin, int outputEnablePin, bool useHardwareSPI ){
+void SerialNixieDriver::begin( int rckPin, int clkPin, int dataPin, int outputEnablePin, bool useHardwareSPI ){
 	
 	this->_useHardwareSPI = useHardwareSPI;
 	this->_clkPin = clkPin;
@@ -81,7 +81,7 @@ void SPINixieDriver::begin( int rckPin, int clkPin, int dataPin, int outputEnabl
 }
 
 
-uint16_t SPINixieDriver::decode(uint8_t digit){
+uint16_t SerialNixieDriver::decode(uint8_t digit){
 	if(digit < 10){
 		return ((uint16_t)1)<<digit;
 	}
@@ -90,22 +90,39 @@ uint16_t SPINixieDriver::decode(uint8_t digit){
 	}
 }
 
-void SPINixieDriver::send(const uint8_t data){
+
+void SerialNixieDriver::pushData(const uint8_t data){
 	if(this->_useHardwareSPI){
-		digitalWrite(this->_rckPin, LOW);
 		SPI.transfer16(this->decode(data));
-		digitalWrite(this->_rckPin, HIGH);
 	}
 	else{
 		uint16_t bcd = this->decode(data);
-		digitalWrite(this->_rckPin, LOW);
 		shiftOut(this->_dataPin, this->_clkPin, MSBFIRST, bcd >> 8);
 		shiftOut(this->_dataPin, this->_clkPin, MSBFIRST, bcd & 0xFF);
-		digitalWrite(this->_rckPin, HIGH);
 	}
 }
 
-void SPINixieDriver::end(){
+
+void SerialNixieDriver::send(const uint8_t *data){
+	if(data){
+		uint16_t n = sizeof(data);
+		if(n){
+			digitalWrite(this->_rckPin, LOW);
+			for(uint16_t i = n-1; i > 0; i--){
+				this->pushData(data[i]);
+			}
+			digitalWrite(this->_rckPin, HIGH);
+		}
+	}
+}
+
+void SerialNixieDriver::send(const uint8_t data){
+	digitalWrite(this->_rckPin, LOW);
+	this->pushData(data);
+	digitalWrite(this->_rckPin, HIGH);
+}
+
+void SerialNixieDriver::end(){
 	if(this->_useHardwareSPI){
 		SPI.end();
 	}
