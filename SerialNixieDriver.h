@@ -48,7 +48,7 @@ class SerialNixieDriver {
 	*	@param dataPin The pin used to transmit data. In the case of hardware SPI this is the MOSI pin.
 	*	@param useHardwareSPI If set to true, Arduino SPI library will be used. Otherwise, software serial will be used via the shiftOut function.
 	*/
-	void begin( int rckPin, int clkPin, int dataPin, int outputEnablePin = 0, bool useHardwareSPI = true);
+	void begin( int rckPin, int clkPin, int dataPin, int outputEnablePin = 0, bool useHardwareSPI = false);
 	
 	
 	/** @brief Enable/disable output 
@@ -61,8 +61,9 @@ class SerialNixieDriver {
 	
 	/** @brief Sends an array of data over daisy-chained nixie tube
 	*	@param data an array containing numbers to display
+	*	@param size the size of the array
 	*/
-	void send(const uint8_t *data);
+	void send(const uint8_t *data, const uint8_t size);
 	
 	/** @brief Sends a single digit over to a nixie tube
 	*	@param data the digit value to display
@@ -75,7 +76,7 @@ class SerialNixieDriver {
 	int _clkPin = 0;
 	int _dataPin = 0;
 	int _outputEnablePin = 0;
-	uint16_t decode(uint8_t digit);
+	uint16_t decode(const uint8_t digit);
 	void pushData(const uint8_t data);
 };
 #endif
