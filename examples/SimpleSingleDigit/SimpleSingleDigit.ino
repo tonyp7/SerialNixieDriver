@@ -8,7 +8,7 @@
  For broad compatibility; this is using software serial.
 
  Copyright (c) 2019 Tony Pottier, Under the MIT License
- @see https://github.com/tonyp7/SPINixieDriver
+ @see https://github.com/tonyp7/SerialNixieDriver
  */
 
 
