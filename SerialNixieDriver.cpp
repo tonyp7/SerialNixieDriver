@@ -81,7 +81,7 @@ void SerialNixieDriver::begin( int rckPin, int clkPin, int dataPin, int outputEn
 }
 
 
-uint16_t SerialNixieDriver::decode(uint8_t digit){
+uint16_t SerialNixieDriver::decode(const uint8_t digit){
 	if(digit < 10){
 		return ((uint16_t)1)<<digit;
 	}
@@ -103,16 +103,13 @@ void SerialNixieDriver::pushData(const uint8_t data){
 }
 
 
-void SerialNixieDriver::send(const uint8_t *data){
-	if(data){
-		uint16_t n = sizeof(data);
-		if(n){
-			digitalWrite(this->_rckPin, LOW);
-			for(uint16_t i = n-1; i > 0; i--){
-				this->pushData(data[i]);
-			}
-			digitalWrite(this->_rckPin, HIGH);
+void SerialNixieDriver::send(const uint8_t *data, const uint8_t size){
+	if(data && size){
+		digitalWrite(this->_rckPin, LOW);
+		for(int i = size-1; i >= 0; i--){
+			this->pushData(data[i]);
 		}
+		digitalWrite(this->_rckPin, HIGH);
 	}
 }
 
